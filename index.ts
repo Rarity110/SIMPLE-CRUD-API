@@ -1,13 +1,10 @@
 import http from 'http';
 import customRouter from './src/router.js';
 
-const host = '127.0.0.1';
 const port = 4000;
 
-
-
 const server = http.createServer((req, res) => {
-    res.setHeader('Content-Type', 'application/json');
+    // res.setHeader('Content-Type', 'application/json');
     
     try {
         if (req.url && req.method) {
@@ -20,6 +17,6 @@ const server = http.createServer((req, res) => {
 
 });
 
-server.listen(port, host, () => {
-    console.log(`Сервер запущен на ${host}:${port}`);
+server.listen(port, () => {
+    console.log(`Сервер запущен на Localhost:${port}`);
 })

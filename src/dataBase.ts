@@ -31,4 +31,4 @@ const postUser = (user: IUser) => {
     return [...users, user];
 };
 
-export { getAllUsers, getUsersByID, postUser };
+export { getAllUsers, getUsersByID, postUser, IUser };
