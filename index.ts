@@ -11,7 +11,7 @@ const server = http.createServer((req, res) => {
     
     try {
         if (req.url && req.method) {
-            const router = customRouter(req.url, req.method, res, req);
+            const router = customRouter(req, res );
         }
     } catch (error) {
         res.writeHead(500);
