@@ -50,4 +50,15 @@ const putUserByID = (id: string, userData: IUserData) => {
     }
 };
 
-export { getAllUsers, getUsersByID, postUser, putUserByID, IUser, IUserData };
+const deleteUserByID = async (id: string) => {
+    const user = users.filter((item) => item.id === id)[0];
+    
+    if (user) {
+        users = users.filter((item) => item.id !== id);
+        return true;
+    } else {
+        return false;
+    }
+};
+
+export { getAllUsers, getUsersByID, postUser, putUserByID, deleteUserByID, IUser, IUserData };
