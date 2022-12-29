@@ -46,8 +46,13 @@ const putUser = async (req: http.IncomingMessage, res: http.ServerResponse<http.
         return; 
     }
     
-    const user = putUserByID(id, userData as IUserData)
-    sendResponse(res, RESPONSE_CODES.OK_POST, 'user');
+    const user = putUserByID(id, userData as IUserData);
+    if (!user) {
+        sendResponse(res, RESPONSE_CODES.NOT_FOUND, ERROR_MESSAGES.NOT_FOUND_USER);
+        return; 
+    }
+
+    sendResponse(res, RESPONSE_CODES.OK_PUT, user);
     return;
 };
 

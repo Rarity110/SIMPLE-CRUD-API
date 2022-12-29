@@ -7,6 +7,8 @@ interface IUser {
     hobbies: string[] 
 };
 
+type KeysOfIUser = 'username' | 'age' | 'hobbies';
+
 interface IUserData {
     username?: string,
     age?: number, 
@@ -38,14 +40,14 @@ const postUser = (userData: IUser ) => {
 };
 
 const putUserByID = (id: string, userData: IUserData) => {
-    const user = users.filter((item) => item.id === id)[0];
-    if (user) {
-        for (const key in userData ) {
-            console.log(key);
-            
-        }
+    const ind = users.findIndex((item) => item.id === id);
+    if (ind !== -1) {
+        const user = users[ind];
+        users[ind] = {...user, ...userData};
+        return users[ind];
+    } else {
+        return null;
     }
-    return user ? user : null;
 };
 
 export { getAllUsers, getUsersByID, postUser, putUserByID, IUser, IUserData };
