@@ -1,5 +1,7 @@
 import http from 'http';
+import { ENDPOINT } from './consts.js';
 import { IUser  } from "./dataBase.js";
+
 
 const parseResponseBody = async (req: http.IncomingMessage) => {
     const buffers = []; 
@@ -16,9 +18,15 @@ const parseResponseBody = async (req: http.IncomingMessage) => {
     }
 };
 
+const parseURL =async (req: http.IncomingMessage) => {
+   const url = req.url as string;
+   const id = url.replace(`${ENDPOINT}/`, '');
+   return id;
+}
+
 const sendResponse = (res: http.ServerResponse<http.IncomingMessage>, code: number, response: IUser[] | string |  IUser) => {
 res.writeHead(code, { "Content-Type": "application/json" });
 res.end(JSON.stringify(response));
 };
 
-export { parseResponseBody, sendResponse };
+export { parseResponseBody, parseURL, sendResponse };

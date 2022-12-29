@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import http from 'http';
-import { parseResponseBody, sendResponse } from './utils.js';
+import { parseResponseBody, parseURL, sendResponse } from './utils.js';
 import { ENDPOINT, RESPONSE_CODES, ERROR_MESSAGES, REQUEST_METHODS } from './consts.js';
 import { getAllUsers, getUsersByID, postUser, IUser } from './dataBase.js'
 
@@ -20,4 +20,17 @@ const postNewUser = async (req: http.IncomingMessage, res: http.ServerResponse<h
     return;
 };
 
-export { postNewUser };
+const getUser = async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage> ) => {
+    const id: string = await parseURL(req);
+    const user = getUsersByID(id);
+    if (user) {
+        sendResponse(res, RESPONSE_CODES.OK_GET, user);
+        return;
+    }
+    if (!user) {
+        sendResponse(res, RESPONSE_CODES.NOT_FOUND, ERROR_MESSAGES.NOT_FOUND_USER);
+        return;
+    }
+};
+
+export { postNewUser, getUser };

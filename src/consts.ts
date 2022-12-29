@@ -33,6 +33,6 @@ enum REQUEST_METHODS {
     DELETE = 'DELETE',
 };
 
-const ENDPOINT = '/users';
+const ENDPOINT = '/api/users';
 
 export { ENDPOINT, RESPONSE_CODES, ERROR_MESSAGES, REQUEST_METHODS };
