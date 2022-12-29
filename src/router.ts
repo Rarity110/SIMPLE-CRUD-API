@@ -1,23 +1,9 @@
 import { getAllUsers, getUsersByID, postUser, IUser  } from "./dataBase.js";
 import http from 'http';
-import { Buffer } from 'buffer';
 import { ENDPOINT, RESPONSE_CODES, ERROR_MESSAGES, REQUEST_METHODS } from './consts.js';
+import { parseResponseBody, sendResponse } from './utils.js';
+import { postNewUser } from "./controller.js";
 
-const parseResponseBody = async (req: http.IncomingMessage) => {
-        const buffers = []; 
-
-        for await (const chunk of req) {
-            buffers.push(chunk);
-        }
-    
-        const data = Buffer.concat(buffers).toString();
-        return JSON.parse(data);
-};
-
-const sendResponse = (res: http.ServerResponse<http.IncomingMessage>, code: number, response: IUser[] | string) => {
-    res.writeHead(code, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(response));
-};
 
 const customRouter = async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage>) => {
 
@@ -26,19 +12,17 @@ const customRouter = async (req: http.IncomingMessage, res: http.ServerResponse<
             const allUsers = getAllUsers();
             sendResponse(res, RESPONSE_CODES.OK_GET, allUsers);
         } catch (error) {
-            res.writeHead(404, { "Content-Type": "application/json" });
-            res.end('Server error');
+            sendResponse(res, RESPONSE_CODES.SERVER_ERROR, ERROR_MESSAGES.SERVER_ERROR);
         }
         
     } 
 
     if (req.method === REQUEST_METHODS.POST) {
         try {
-            const user = await parseResponseBody(req);
-            const users = postUser(user);
-            sendResponse(res, RESPONSE_CODES.OK_POST, user);
+            await postNewUser(req, res);
+            
         } catch (error) {
-            console.log(error);
+            sendResponse(res, RESPONSE_CODES.SERVER_ERROR, ERROR_MESSAGES.SERVER_ERROR);
         }
         
     }

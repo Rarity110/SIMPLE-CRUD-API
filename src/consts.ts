@@ -5,13 +5,14 @@ const enum RESPONSE_CODES {
     OK_DELETE = 204,
     NOT_FOUND = 404,
     BAD_REQUEST = 400,
+    SERVER_ERROR = 500,
 };
 
 const enum ERROR_MESSAGES {
     OK_GET_ALL = 'All users data are received',
     OK_GET_USER = 'User data are received',
     BAD_REQUEST_GET_USER = 'Bad Request',
-    NOT_FOUND_USER = 'User is not found',
+    NOT_FOUND_USER = 'User not found',
     BAD_REQUEST_GET = 'UserId is invalid (not uuid)',
     OK_POST = 'User is successfully created',
     BAD_REQUEST_POST = 'Request body does not contain required fields',
@@ -19,10 +20,13 @@ const enum ERROR_MESSAGES {
     BAD_REQUEST_PUT = 'UserId is invalid (not uuid)',
     OK_DELETE = 'User is successfully deleted',
     BAD_REQUEST_DELETE = 'UserId is invalid (not uuid)',
-    NOT_FOUND_DELETE = 'User is not found',
+    NOT_FOUND_DELETE = 'User not found',
+    SERVER_ERROR = 'Server error',
+    NOT_FOUND_PAGE = 'Page not found',
+    INVALID_METHOD = 'Invalid method',
 };
 
-const enum REQUEST_METHODS {
+enum REQUEST_METHODS {
     GET = 'GET',
     POST = 'POST',
     PUT = 'PUT',

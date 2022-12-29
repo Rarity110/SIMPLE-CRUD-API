@@ -7,6 +7,8 @@ interface IUser {
     hobbies: string[] 
 };
 
+let users: IUser[] = [];
+
 const createUser = (user: IUser) => ({
     id: uuid(),
     username: user.username,
@@ -14,21 +16,19 @@ const createUser = (user: IUser) => ({
     hobbies: user.hobbies
 });
 
-
-const users: IUser[] = [];
-
 const getAllUsers = () => {
     return [...users]
 };
 
 const getUsersByID = (id: string) => {
     const user = users.filter((item) => item.id === id)[0];
-    console.log(user);
     return user ? user : null;
 };
 
-const postUser = (user: IUser) => {
-    return [...users, user];
+const postUser = (userData: IUser ) => {
+    const user = createUser(userData)
+    users = [...users, user];
+    return user;
 };
 
 export { getAllUsers, getUsersByID, postUser, IUser };
