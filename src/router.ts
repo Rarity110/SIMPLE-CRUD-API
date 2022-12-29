@@ -2,7 +2,7 @@ import { getAllUsers, getUsersByID, postUser, IUser  } from "./dataBase.js";
 import http from 'http';
 import { ENDPOINT, RESPONSE_CODES, ERROR_MESSAGES, REQUEST_METHODS } from './consts.js';
 import { parseResponseBody, sendResponse } from './utils.js';
-import { postNewUser, getUser } from "./controller.js";
+import { postNewUser, getUser, putUser } from "./controller.js";
 
 
 const customRouter = async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage>) => {
@@ -35,23 +35,15 @@ const customRouter = async (req: http.IncomingMessage, res: http.ServerResponse<
         
     }
 
-    // if (id && method === 'GET') {
-    //     try {
-    //         const response = getUsersByID(id);
-    //         if (response) {
-    //             res.writeHead(200, { "Content-Type": "application/json" });
-    //             res.end(JSON.stringify(response));
-    //         } else {
-    //             res.writeHead(404, { "Content-Type": "application/json" });
-    //             res.end(`User ${id} not found`);
-    //         }
-           
-    //     } catch (error) {
-    //         res.writeHead(400, { "Content-Type": "application/json" });
-    //         res.end('Bad Request');
-    //     }
+    if (req.method === REQUEST_METHODS.PUT) {
+        try {
+            await putUser(req, res);
+            
+        } catch (error) {
+            sendResponse(res, RESPONSE_CODES.SERVER_ERROR, ERROR_MESSAGES.SERVER_ERROR);
+        }
         
-    // };
+    }
    
 };
 

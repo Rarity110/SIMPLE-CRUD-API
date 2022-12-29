@@ -7,6 +7,12 @@ interface IUser {
     hobbies: string[] 
 };
 
+interface IUserData {
+    username?: string,
+    age?: number, 
+    hobbies?: string[] 
+}
+
 let users: IUser[] = [];
 
 const createUser = (user: IUser) => ({
@@ -31,4 +37,15 @@ const postUser = (userData: IUser ) => {
     return user;
 };
 
-export { getAllUsers, getUsersByID, postUser, IUser };
+const putUserByID = (id: string, userData: IUserData) => {
+    const user = users.filter((item) => item.id === id)[0];
+    if (user) {
+        for (const key in userData ) {
+            console.log(key);
+            
+        }
+    }
+    return user ? user : null;
+};
+
+export { getAllUsers, getUsersByID, postUser, putUserByID, IUser, IUserData };
