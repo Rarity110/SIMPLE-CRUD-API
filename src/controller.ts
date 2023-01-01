@@ -1,16 +1,7 @@
-import { v4 as uuid } from "uuid";
 import http from 'http';
-import { parseResponseBody, parseURL, sendResponse } from './utils.js';
-import { ENDPOINT, RESPONSE_CODES, ERROR_MESSAGES, REQUEST_METHODS } from './consts.js';
+import { parseResponseBody, parseURL, sendResponse, isValidateUser, isValidateUserData, isUuid } from './utils.js';
+import { RESPONSE_CODES, RESPONSE_MESSAGES } from './consts.js';
 import { getAllUsers, getUsersByID, postUser, IUser, IUserData, putUserByID, deleteUserByID } from './dataBase.js';
-
-const isValidateUser = (user: IUser) => {
-    return (user && user.username && user.age && user.hobbies);
-}
-
-const isValidateUserData = (user: IUserData) => {
-    return (user && (user.username || user.age || user.hobbies));
-}
 
 const getUsers = async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage> ) => {
     const users = getAllUsers();
@@ -23,7 +14,7 @@ const getUsers = async (req: http.IncomingMessage, res: http.ServerResponse<http
 const postNewUser = async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage> ) => {
     const userData: IUser | null = await parseResponseBody(req);
     if (!userData || !isValidateUser(userData as IUser)) {
-        sendResponse(res, RESPONSE_CODES.BAD_REQUEST, ERROR_MESSAGES.BAD_REQUEST_POST);
+        sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_POST);
         return; 
     }
     
@@ -34,29 +25,46 @@ const postNewUser = async (req: http.IncomingMessage, res: http.ServerResponse<h
 
 const getUser = async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage> ) => {
     const id: string = await parseURL(req);
+
+    if (!isUuid(id)) {
+        sendResponse(res, RESPONSE_CODES.NOT_UUID, RESPONSE_MESSAGES.NOT_UUID);
+        return;
+    }
+
     const user = getUsersByID(id);
-    if (user) {
-        sendResponse(res, RESPONSE_CODES.OK_GET, user);
-        return;
-    }
+
     if (!user) {
-        sendResponse(res, RESPONSE_CODES.NOT_FOUND, ERROR_MESSAGES.NOT_FOUND_USER);
+        sendResponse(res, RESPONSE_CODES.NOT_FOUND, RESPONSE_MESSAGES.NOT_FOUND_USER);
         return;
     }
+
+    sendResponse(res, RESPONSE_CODES.OK_GET, user);
+    return;
 };
 
 const putUser = async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage> ) => {
     const id: string = await parseURL(req);
     const userData: IUserData | null = await parseResponseBody(req);
 
-    if (!userData || !isValidateUserData(userData as IUser)) {
-        sendResponse(res, RESPONSE_CODES.BAD_REQUEST, ERROR_MESSAGES.BAD_REQUEST_PUT);
+    if (!userData) {
+        sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_PUT);
+        return; 
+    }
+
+    if (!isUuid(id)) {
+        sendResponse(res, RESPONSE_CODES.NOT_UUID, RESPONSE_MESSAGES.NOT_UUID);
+        return;
+    }
+
+    if (!isValidateUserData(userData as IUser)) {
+        sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_PUT);
         return; 
     }
     
     const user = putUserByID(id, userData as IUserData);
+
     if (!user) {
-        sendResponse(res, RESPONSE_CODES.NOT_FOUND, ERROR_MESSAGES.NOT_FOUND_USER);
+        sendResponse(res, RESPONSE_CODES.NOT_FOUND, RESPONSE_MESSAGES.NOT_FOUND_USER);
         return; 
     }
 
@@ -68,17 +76,22 @@ const deleteUser = async (req: http.IncomingMessage, res: http.ServerResponse<ht
     const id: string = await parseURL(req);
 
     if (!id) {
-        sendResponse(res, RESPONSE_CODES.BAD_REQUEST, ERROR_MESSAGES.BAD_REQUEST_DELETE);
+        sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_DELETE);
         return; 
+    }
+
+    if (!isUuid(id)) {
+        sendResponse(res, RESPONSE_CODES.NOT_UUID, RESPONSE_MESSAGES.NOT_UUID);
+        return;
     }
     
     const isDeleted = deleteUserByID(id);
 
     if (await isDeleted) {
-        sendResponse(res, RESPONSE_CODES.OK_DELETE, ERROR_MESSAGES.OK_DELETE);
+        sendResponse(res, RESPONSE_CODES.OK_DELETE, RESPONSE_MESSAGES.OK_DELETE);
         return; 
     } else { 
-        sendResponse(res, RESPONSE_CODES.NOT_FOUND, ERROR_MESSAGES.NOT_FOUND_DELETE);
+        sendResponse(res, RESPONSE_CODES.NOT_FOUND, RESPONSE_MESSAGES.NOT_FOUND_DELETE);
         return; 
     }
 };

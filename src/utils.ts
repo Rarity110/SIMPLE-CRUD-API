@@ -1,9 +1,9 @@
-import http from 'http';
+import { IncomingMessage, ServerResponse } from 'http';
 import { ENDPOINT } from './consts.js';
-import { IUser  } from "./dataBase.js";
+import { IUser, IUserData } from './interfaces.js';
+import { validate as uuidValidate, version as uuidVersion  } from "uuid";
 
-
-const parseResponseBody = async (req: http.IncomingMessage) => {
+const parseResponseBody = async (req: IncomingMessage) => {
     const buffers = []; 
 
     for await (const chunk of req) {
@@ -18,15 +18,27 @@ const parseResponseBody = async (req: http.IncomingMessage) => {
     }
 };
 
-const parseURL =async (req: http.IncomingMessage) => {
+const parseURL =async (req: IncomingMessage) => {
    const url = req.url as string;
    const id = url.replace(`${ENDPOINT}/`, '');
    return id;
 }
 
-const sendResponse = (res: http.ServerResponse<http.IncomingMessage>, code: number, response: IUser[] | string |  IUser) => {
-res.writeHead(code, { "Content-Type": "application/json" });
-res.end(JSON.stringify(response));
+const sendResponse = (res: ServerResponse<IncomingMessage>, code: number, response: IUser[] | string |  IUser) => {
+    res.writeHead(code, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(response));
 };
 
-export { parseResponseBody, parseURL, sendResponse };
+const isValidateUser = (user: IUser) => {
+    return (user && user.username && user.age && user.hobbies);
+};
+
+const isValidateUserData = (user: IUserData) => {
+    return (user && (user.username || user.age || user.hobbies));
+};
+
+const isUuid = (id: string) => {
+    return uuidValidate(id) && uuidVersion(id) === 4;
+}
+
+export { parseResponseBody, parseURL, sendResponse, isValidateUser, isValidateUserData, isUuid };

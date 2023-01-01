@@ -24,6 +24,7 @@
     "@types/uuid": "^9.0.0"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "uuid": "^9.0.0"
   }
 }

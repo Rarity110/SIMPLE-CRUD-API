@@ -6,9 +6,10 @@ const enum RESPONSE_CODES {
     NOT_FOUND = 404,
     BAD_REQUEST = 400,
     SERVER_ERROR = 500,
+    NOT_UUID = 400,
 };
 
-const enum ERROR_MESSAGES {
+const enum RESPONSE_MESSAGES {
     OK_GET_ALL = 'All users data are received',
     OK_GET_USER = 'User data are received',
     BAD_REQUEST_GET_USER = 'Bad Request',
@@ -24,6 +25,7 @@ const enum ERROR_MESSAGES {
     SERVER_ERROR = 'Server error',
     NOT_FOUND_PAGE = 'Page not found',
     INVALID_METHOD = 'Invalid method',
+    NOT_UUID = 'User is not uuid',
 };
 
 enum REQUEST_METHODS {
@@ -35,4 +37,4 @@ enum REQUEST_METHODS {
 
 const ENDPOINT = '/api/users';
 
-export { ENDPOINT, RESPONSE_CODES, ERROR_MESSAGES, REQUEST_METHODS };
+export { ENDPOINT, RESPONSE_CODES, RESPONSE_MESSAGES, REQUEST_METHODS };

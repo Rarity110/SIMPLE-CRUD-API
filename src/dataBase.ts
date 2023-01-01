@@ -1,19 +1,6 @@
 import { v4 as uuid } from "uuid";
+import { IUser, IUserData } from './interfaces.js';
 
-interface IUser {
-    id: string,
-    username: string,
-    age: number, 
-    hobbies: string[] 
-};
-
-type KeysOfIUser = 'username' | 'age' | 'hobbies';
-
-interface IUserData {
-    username?: string,
-    age?: number, 
-    hobbies?: string[] 
-}
 
 let users: IUser[] = [];
 
