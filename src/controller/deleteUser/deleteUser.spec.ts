@@ -33,7 +33,7 @@ describe('Delete user', () => {
 	it('Server should answer with status code 400 if id was not written', async () => {
 		const res = await request(application).delete('/api/users/');
 		expect(res.statusCode).toBe(400);
-		expect(res.body).toEqual('UserId is invalid (not uuid)');
+		expect(res.body).toEqual('URL does not contain id');
 	}, 60000);
 
 	it('Server should answer with status code 400 and corresponding message if userId is invalid (not uuid)', async () => {

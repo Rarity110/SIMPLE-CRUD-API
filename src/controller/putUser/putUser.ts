@@ -23,7 +23,7 @@ const putUser = async (
 	const userData: IUserData | null = await parseResponseBody(req);
 
 	if (!userData) {
-		sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_PUT);
+		sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_REQUARED_FIELDS);
 		return;
 	}
 
@@ -33,7 +33,7 @@ const putUser = async (
 	}
 
 	if (!isValidateUserData(userData as IUser)) {
-		sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_PUT);
+		sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_REQUARED_FIELDS);
 		return;
 	}
 

@@ -13,7 +13,7 @@ const deleteUser = async (
 	const id: string = await parseURL(req);
 
 	if (!id) {
-		sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_DELETE);
+		sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_REQUARED_ID);
 		return;
 	}
 
@@ -28,7 +28,7 @@ const deleteUser = async (
 		sendResponse(res, RESPONSE_CODES.OK_DELETE, RESPONSE_MESSAGES.OK_DELETE);
 		return;
 	} else {
-		sendResponse(res, RESPONSE_CODES.NOT_FOUND, RESPONSE_MESSAGES.NOT_FOUND_DELETE);
+		sendResponse(res, RESPONSE_CODES.NOT_FOUND, RESPONSE_MESSAGES.NOT_FOUND_USER);
 		return;
 	}
 };

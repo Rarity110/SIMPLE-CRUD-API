@@ -4,7 +4,6 @@ import customRouter from './router.ts';
 //@ts-ignore
 import { ENDPOINT, RESPONSE_CODES, RESPONSE_MESSAGES } from './consts.ts';
 
-
 //@ts-ignore
 import { sendResponse } from './utils.ts';
 

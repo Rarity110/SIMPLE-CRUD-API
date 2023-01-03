@@ -14,7 +14,7 @@ const postNewUser = async (
 ): Promise<void> => {
 	const userData: IUser | null = await parseResponseBody(req);
 	if (!userData || !isValidateUser(userData as IUser)) {
-		sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_POST);
+		sendResponse(res, RESPONSE_CODES.BAD_REQUEST, RESPONSE_MESSAGES.BAD_REQUEST_REQUARED_FIELDS);
 		return;
 	}
 
