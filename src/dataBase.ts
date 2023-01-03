@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
-import { IUser, IUserData } from './interfaces.js';
+//@ts-ignore
+import { IUser, IUserData } from './interfaces.ts';
 
 
 let users: IUser[] = [];
@@ -48,4 +49,4 @@ const deleteUserByID = async (id: string) => {
     }
 };
 
-export { getAllUsers, getUsersByID, postUser, putUserByID, deleteUserByID, IUser, IUserData };
+export { getAllUsers, getUsersByID, postUser, putUserByID, deleteUserByID };

@@ -1,6 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { ENDPOINT } from './consts.js';
-import { IUser, IUserData } from './interfaces.js';
+//@ts-ignore
+import { ENDPOINT } from './consts.ts';
+//@ts-ignore
+import { IUser, IUserData } from './interfaces.ts';
 import { validate as uuidValidate, version as uuidVersion  } from "uuid";
 
 const parseResponseBody = async (req: IncomingMessage) => {
@@ -25,6 +27,7 @@ const parseURL =async (req: IncomingMessage) => {
 }
 
 const sendResponse = (res: ServerResponse<IncomingMessage>, code: number, response: IUser[] | string |  IUser) => {
+    
     res.writeHead(code, { "Content-Type": "application/json" });
     res.end(JSON.stringify(response));
 };
