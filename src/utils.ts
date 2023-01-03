@@ -3,45 +3,48 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { ENDPOINT } from './consts.ts';
 //@ts-ignore
 import { IUser, IUserData } from './interfaces.ts';
-import { validate as uuidValidate, version as uuidVersion  } from "uuid";
+import { validate as uuidValidate, version as uuidVersion } from 'uuid';
 
-const parseResponseBody = async (req: IncomingMessage) => {
-    const buffers = []; 
+const parseResponseBody = async (req: IncomingMessage): Promise<IUserData> => {
+	const buffers = [];
 
-    for await (const chunk of req) {
-        buffers.push(chunk);
-    }
+	for await (const chunk of req) {
+		buffers.push(chunk);
+	}
 
-    const data = Buffer.concat(buffers).toString();
-    try {
-        return JSON.parse(data);
-    } catch (error) {
-        return null;
-    }
+	const data = Buffer.concat(buffers).toString();
+	try {
+		return JSON.parse(data);
+	} catch (error) {
+		return null;
+	}
 };
 
-const parseURL =async (req: IncomingMessage) => {
-   const url = req.url as string;
-   const id = url.replace(`${ENDPOINT}/`, '');
-   return id;
-}
-
-const sendResponse = (res: ServerResponse<IncomingMessage>, code: number, response: IUser[] | string |  IUser) => {
-    
-    res.writeHead(code, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(response));
+const parseURL = async (req: IncomingMessage): Promise<string> => {
+	const url = req.url as string;
+	const id = url.replace(`${ENDPOINT}/`, '');
+	return id;
 };
 
-const isValidateUser = (user: IUser) => {
-    return (user && user.username && user.age && user.hobbies);
+const sendResponse = (
+	res: ServerResponse<IncomingMessage>,
+	code: number,
+	response: IUser[] | string | IUser,
+): void => {
+	res.writeHead(code, { 'Content-Type': 'application/json' });
+	res.end(JSON.stringify(response));
 };
 
-const isValidateUserData = (user: IUserData) => {
-    return (user && (user.username || user.age || user.hobbies));
+const isValidateUser = (user: IUser): boolean => {
+	return user && user.username && user.age && user.hobbies;
 };
 
-const isUuid = (id: string) => {
-    return uuidValidate(id) && uuidVersion(id) === 4;
-}
+const isValidateUserData = (user: IUserData): boolean => {
+	return user && (user.username || user.age || user.hobbies);
+};
+
+const isUuid = (id: string): boolean => {
+	return uuidValidate(id) && uuidVersion(id) === 4;
+};
 
 export { parseResponseBody, parseURL, sendResponse, isValidateUser, isValidateUserData, isUuid };
