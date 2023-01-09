@@ -1,19 +1,9 @@
 import http from 'http';
 
-import {
-	parseResponseBody,
-	parseURL,
-	sendResponse,
-	isValidateUserData,
-	isUuid,
-	//@ts-ignore
-} from '../../utils.ts';
-//@ts-ignore
-import { RESPONSE_CODES, RESPONSE_MESSAGES } from '../../consts.ts';
-//@ts-ignore
-import { putUserByID } from '../../dataBase.ts';
-//@ts-ignore
-import { IUser, IUserData } from '../../interfaces.ts';
+import { parseResponseBody, parseURL, sendResponse, isValidateUserData, isUuid } from '../../utils';
+import { RESPONSE_CODES, RESPONSE_MESSAGES } from '../../consts';
+import { putUserByID } from '../../dataBase';
+import { IUser, IUserData } from '../../interfaces';
 
 const putUser = async (
 	req: http.IncomingMessage,

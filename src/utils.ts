@@ -1,11 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
-//@ts-ignore
-import { ENDPOINT } from './consts.ts';
-//@ts-ignore
-import { IUser, IUserData } from './interfaces.ts';
+import { ENDPOINT } from './consts';
+import { IUser, IUserData } from './interfaces';
 import { validate as uuidValidate, version as uuidVersion } from 'uuid';
 
-const parseResponseBody = async (req: IncomingMessage): Promise<IUserData> => {
+const parseResponseBody = async (req: IncomingMessage): Promise<IUserData | null> => {
 	const buffers = [];
 
 	for await (const chunk of req) {
@@ -35,11 +33,11 @@ const sendResponse = (
 	res.end(JSON.stringify(response));
 };
 
-const isValidateUser = (user: IUser): boolean => {
+const isValidateUser = (user: IUser): '' | 0 | string[] => {
 	return user && user.username && user.age && user.hobbies;
 };
 
-const isValidateUserData = (user: IUserData): boolean => {
+const isValidateUserData = (user: IUserData): string | number | string[] | undefined => {
 	return user && (user.username || user.age || user.hobbies);
 };
 

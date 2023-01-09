@@ -1,6 +1,5 @@
 import { Server, IncomingMessage, ServerResponse } from 'http';
-//@ts-ignore
-import server from '../../server.ts';
+import server from '../../server';
 import request from 'supertest';
 
 let application: Server<typeof IncomingMessage, typeof ServerResponse>;

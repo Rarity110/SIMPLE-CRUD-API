@@ -11,4 +11,4 @@ interface IUserData {
 	hobbies?: string[];
 }
 
-export { IUser, IUserData };
+export type { IUser, IUserData };

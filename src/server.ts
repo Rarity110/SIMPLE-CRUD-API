@@ -1,14 +1,14 @@
 import http from 'http';
-//@ts-ignore
-import customRouter from './router.ts';
-//@ts-ignore
-import { ENDPOINT, RESPONSE_CODES, RESPONSE_MESSAGES } from './consts.ts';
-
-//@ts-ignore
-import { sendResponse } from './utils.ts';
+import customRouter from './router';
+import { ENDPOINT, RESPONSE_CODES, RESPONSE_MESSAGES } from './consts';
+import { sendResponse } from './utils';
+// import cluster from 'node:cluster';
 
 const server = http.createServer(async (req, res) => {
 	try {
+		// if (cluster.isWorker) {
+		// 	console.log(`Worker ${cluster.worker?.id} handle request`);
+		// }
 		if (!req.url) {
 			sendResponse(res, RESPONSE_CODES.NOT_FOUND, RESPONSE_MESSAGES.NOT_FOUND_PAGE);
 			return;

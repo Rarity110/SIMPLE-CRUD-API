@@ -1,12 +1,7 @@
-//@ts-ignore
-import deleteUser from './deleteUser/deleteUser.ts';
-//@ts-ignore
-import getUser from './getUser/getUser.ts';
-//@ts-ignore
-import getUsers from './getUsers/getUsers.ts';
-//@ts-ignore
-import postNewUser from './postNewUser/postNewUser.ts';
-//@ts-ignore
-import putUser from './putUser/putUser.ts';
+import deleteUser from './deleteUser/deleteUser';
+import getUser from './getUser/getUser';
+import getUsers from './getUsers/getUsers';
+import postNewUser from './postNewUser/postNewUser';
+import putUser from './putUser/putUser';
 
 export { deleteUser, getUser, getUsers, postNewUser, putUser };

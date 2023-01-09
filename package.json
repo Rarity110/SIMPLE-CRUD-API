@@ -2,13 +2,14 @@
   "name": "simple-crud-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
-  "type": "module",
+  "main": "main.js",
+  "type": "commonjs",
   "scripts": {
     "start:dev": "nodemon",
-    "start:prod": "tsc && node ./dist/index.js",
+    "start:prod": "tsc && node ./dist/src/main.js",
+    "start:multi": "tsc && node ./dist/src/index.js",
     "build": "tsc",
-    "test": "jest --coverage",
+    "test": "jest --config jest.e2e.config.ts --coverage",
     "lint": "eslint ./src/**",
 		"lint:fix": "eslint ./src/** --fix"
   },

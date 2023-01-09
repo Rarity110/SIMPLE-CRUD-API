@@ -1,10 +1,7 @@
 import http from 'http';
-//@ts-ignore
-import { parseURL, sendResponse, isUuid } from '../../utils.ts';
-//@ts-ignore
-import { RESPONSE_CODES, RESPONSE_MESSAGES } from '../../consts.ts';
-//@ts-ignore
-import { deleteUserByID } from '../../dataBase.ts';
+import { parseURL, sendResponse, isUuid } from '../../utils';
+import { RESPONSE_CODES, RESPONSE_MESSAGES } from '../../consts';
+import { deleteUserByID } from '../../dataBase';
 
 const deleteUser = async (
 	req: http.IncomingMessage,

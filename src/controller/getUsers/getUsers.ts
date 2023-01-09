@@ -1,10 +1,7 @@
 import http from 'http';
-//@ts-ignore
-import { sendResponse } from '../../utils.ts';
-//@ts-ignore
-import { RESPONSE_CODES } from '../../consts.ts';
-//@ts-ignore
-import { getAllUsers } from '../../dataBase.ts';
+import { sendResponse } from '../../utils';
+import { RESPONSE_CODES } from '../../consts';
+import { getAllUsers } from '../../dataBase';
 
 const getUsers = async (
 	req: http.IncomingMessage,

@@ -1,10 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
-//@ts-ignore
-import { ENDPOINT, RESPONSE_CODES, RESPONSE_MESSAGES, REQUEST_METHODS } from './consts.ts';
-//@ts-ignore
-import { sendResponse } from './utils.ts';
-//@ts-ignore
-import { getUsers, postNewUser, getUser, putUser, deleteUser } from './controller/index.ts';
+import { ENDPOINT, RESPONSE_CODES, RESPONSE_MESSAGES, REQUEST_METHODS } from './consts';
+import { sendResponse } from './utils';
+import { getUsers, postNewUser, getUser, putUser, deleteUser } from './controller/index';
 
 const customRouter = async (
 	req: IncomingMessage,
