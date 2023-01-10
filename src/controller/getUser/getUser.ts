@@ -1,7 +1,7 @@
 import http from 'http';
 import { parseURL, sendResponse, isUuid } from '../../utils';
 import { RESPONSE_CODES, RESPONSE_MESSAGES } from '../../consts';
-import { getUsersByID } from '../../dataBase';
+import { getUsersByID } from '../../service/service';
 
 const getUser = async (
 	req: http.IncomingMessage,

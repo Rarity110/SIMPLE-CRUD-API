@@ -2,7 +2,7 @@ import http from 'http';
 
 import { parseResponseBody, parseURL, sendResponse, isValidateUserData, isUuid } from '../../utils';
 import { RESPONSE_CODES, RESPONSE_MESSAGES } from '../../consts';
-import { putUserByID } from '../../dataBase';
+import { putUserByID } from '../../service/service';
 import { IUser, IUserData } from '../../interfaces';
 
 const putUser = async (

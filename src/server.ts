@@ -2,13 +2,12 @@ import http from 'http';
 import customRouter from './router';
 import { ENDPOINT, RESPONSE_CODES, RESPONSE_MESSAGES } from './consts';
 import { sendResponse } from './utils';
-// import cluster from 'node:cluster';
+import { env } from 'node:process';
+import cluster from 'node:cluster';
+import { users } from './dataBase';
 
 const server = http.createServer(async (req, res) => {
 	try {
-		// if (cluster.isWorker) {
-		// 	console.log(`Worker ${cluster.worker?.id} handle request`);
-		// }
 		if (!req.url) {
 			sendResponse(res, RESPONSE_CODES.NOT_FOUND, RESPONSE_MESSAGES.NOT_FOUND_PAGE);
 			return;
@@ -25,6 +24,10 @@ const server = http.createServer(async (req, res) => {
 		}
 
 		await customRouter(req, res);
+
+		if (env.MODE === 'multi') {
+			cluster.worker?.send({ users: users });
+		}
 	} catch (error) {
 		sendResponse(res, RESPONSE_CODES.SERVER_ERROR, RESPONSE_MESSAGES.SERVER_ERROR);
 	}

@@ -1,7 +1,7 @@
 import http from 'http';
 import { parseURL, sendResponse, isUuid } from '../../utils';
 import { RESPONSE_CODES, RESPONSE_MESSAGES } from '../../consts';
-import { deleteUserByID } from '../../dataBase';
+import { deleteUserByID } from '../../service/service';
 
 const deleteUser = async (
 	req: http.IncomingMessage,

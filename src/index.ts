@@ -3,11 +3,13 @@ import { cpus } from 'node:os';
 import process from 'node:process';
 import { config } from 'dotenv';
 import server from './server';
-// import { IUser } from './interfaces';
+import { IUser } from './interfaces';
+import { env } from 'node:process';
+import { updateUsers } from './dataBase';
 
 const PORT = config().parsed?.PORT ? config().parsed?.PORT : 4000;
 const numCPUs = cpus().length;
-// let users: IUser[] = [];
+env.MODE = 'multi';
 
 if (cluster.isPrimary) {
 	console.log(`Primary ${process.pid} is running`);
@@ -21,9 +23,15 @@ if (cluster.isPrimary) {
 		console.log(`${worker.id} is running`);
 	});
 
-	// cluster.on('listening', (worker, address) => {
-	// 	console.log(`A worker is now connected to ${address.address}:${address.port}`);
-	// });
+	cluster.on('message', (worker, message: { users: IUser[] }) => {
+		updateUsers(message.users);
+		if (cluster.workers) {
+			const workers = Object.values(cluster.workers);
+			workers.forEach((worker) => {
+				worker?.send(message);
+			});
+		}
+	});
 
 	cluster.on('exit', (worker) => {
 		console.log(`The worker ${worker.id} died`);
@@ -37,25 +45,6 @@ if (cluster.isPrimary) {
 	console.log(`Worker ${process.pid} started`);
 }
 
-// if (cluster.isPrimary) {
-// 	console.log(`Primary ${process.pid} is running`);
-
-// 	for (let i = 0; i < numCPUs; i++) {
-// 		cluster.schedulingPolicy = cluster.SCHED_NONE;
-// 		cluster.fork();
-// 	}
-
-// 	cluster.on('fork', (worker) => {
-// 		console.log(`${worker.id} is running`);
-// 	});
-
-// 	cluster.on('exit', (worker) => {
-// 		console.log(`The worker ${worker.id} died`);
-// 		cluster.fork();
-// 	});
-// } else {
-// 	server.listen(PORT, () => console.log(`Sever is running on the port: ${PORT}`));
-// 	console.log(`Worker ${process.pid} started`);
-// }
-
-// export default users;
+process.on('message', (message: { users: IUser[] }) => {
+	updateUsers(message.users);
+});

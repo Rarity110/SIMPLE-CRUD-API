@@ -1,7 +1,7 @@
 import http from 'http';
 import { parseResponseBody, sendResponse, isValidateUser } from '../../utils';
 import { RESPONSE_CODES, RESPONSE_MESSAGES } from '../../consts';
-import { postUser } from '../../dataBase';
+import { postUser } from '../../service/service';
 import { IUser, IUserData } from '../../interfaces';
 
 const postNewUser = async (
@@ -15,7 +15,6 @@ const postNewUser = async (
 	}
 
 	const user = postUser(userData as IUser);
-
 	sendResponse(res, RESPONSE_CODES.OK_POST, user);
 	return;
 };
